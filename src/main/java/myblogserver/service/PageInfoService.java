@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class PageInfoService {
@@ -21,24 +22,17 @@ public class PageInfoService {
         return pageInfoRepository.findByName(name);
     }
 
-    public Mono<List<PageInfo>> getPageInfo() {
+    public Mono<List<PageInfo>> listPages() {
         return pageInfoRepository.findAll().collectList();
     }
 
-    public Mono<Void> resetPageInfo(PageInfo pageInfo) {
+    public Mono<PageInfo> resetPageInfo(PageInfo pageInfo) {
         return pageInfoRepository.findByName(pageInfo.getName())
+                .filter(Objects::nonNull)
                 .flatMap(pageInfoM -> {
-                    // 该页无背景图片等信息，向数据库中插入一条记录
-                    if (pageInfoM == null ) {
-                        return pageInfoRepository.save(pageInfo);
-                    } else {
-                        return pageInfoRepository.updatePageInfoByName(
-                                pageInfoM.getName(),
-                                pageInfoM.getBackgroundUrl(),
-                                pageInfoM.getDescription()
-                        );
-                    }
+                    pageInfo.setId(pageInfoM.getId());
+                    return pageInfoRepository.save(pageInfo);
                 })
-                .then();
+                .switchIfEmpty(pageInfoRepository.save(pageInfo));
     }
 }

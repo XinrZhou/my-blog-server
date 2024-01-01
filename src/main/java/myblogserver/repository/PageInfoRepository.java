@@ -14,5 +14,5 @@ public interface PageInfoRepository extends ReactiveCrudRepository<PageInfo, Lon
 
     @Modifying
     @Query("update pageInfo p set p.backgroundUrl=:backgroundUrl, p.description=:description where p.name=:name")
-    Mono<Integer> updatePageInfoByName(String name, String backgroundUrl, String description);
+    Mono<PageInfo> updatePageInfoByName(String name, String backgroundUrl, String description);
 }

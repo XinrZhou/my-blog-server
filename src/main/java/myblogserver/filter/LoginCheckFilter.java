@@ -32,7 +32,7 @@ public class LoginCheckFilter implements WebFilter {
 
         for (String url : urls) {
             boolean match = PATH_MATCHER.match(url, path);
-            if(match) {
+            if(match || path.contains("/api/pageInfo")) {
                 return chain.filter(exchange);
             } else if (path.contains("/api/front")) {
                 return chain.filter(exchange);

@@ -18,21 +18,35 @@ public class PageInfoController {
     @Autowired
     private PageInfoService pageInfoService;
 
-    @GetMapping("/info/{name}")
-    public Mono<ResultVO> getPageInfo(@PathVariable String name) {
-        return pageInfoService.getPageInfoByName(name)
-                .map(pageInfo -> ResultVO.success(Map.of("pageInfo", pageInfo)));
-    }
-
+    /**
+     * 获取页面列表信息
+     * @return
+     */
     @GetMapping("/info")
-    public Mono<ResultVO> getPageListInfo() {
-        return pageInfoService.getPageInfo()
-                .map(pageInfo -> ResultVO.success(Map.of("pageInfo", pageInfo)));
+    public Mono<ResultVO> getPages() {
+        return pageInfoService.listPages()
+                .flatMap(pages -> Mono.just(ResultVO.success(Map.of("pages", pages))));
     }
 
+    /**
+     * 修改页面信息
+     * @param pageInfo
+     * @return
+     */
     @PostMapping("/info")
     public Mono<ResultVO> putPageInfo(@RequestBody PageInfo pageInfo) {
         return pageInfoService.resetPageInfo(pageInfo)
                 .then(Mono.just(ResultVO.success("修改成功")));
+    }
+
+    /**
+     * 获取页面信息
+     * @param name
+     * @return
+     */
+    @GetMapping("/info/{name}")
+    public Mono<ResultVO> getPageInfo(@PathVariable String name) {
+        return pageInfoService.getPageInfoByName(name)
+                .map(pageInfo -> ResultVO.success(Map.of("pageInfo", pageInfo)));
     }
 }

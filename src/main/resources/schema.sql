@@ -37,3 +37,13 @@ create table if not exists message
     insert_time datetime not null default current_timestamp,
     update_time datetime default current_timestamp
 );
+
+create table if not exists page_info
+(
+    id bigint(19) not null primary key,
+    name varchar(60) not null ,
+    background_url mediumtext not null,
+    description varchar(200),
+    insert_time datetime not null default current_timestamp,
+    update_time datetime default current_timestamp
+);

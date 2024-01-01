@@ -4,6 +4,7 @@ import myblogserver.entity.Article;
 import myblogserver.entity.Message;
 import myblogserver.service.ArticleService;
 import myblogserver.service.MessageService;
+import myblogserver.service.PageInfoService;
 import myblogserver.service.UserService;
 import myblogserver.utils.ResultVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,6 @@ public class FrontController {
 
     @Autowired
     private MessageService messageService;
-
 
     @GetMapping("/user")
     public Mono<ResultVO> getUser() {
@@ -105,4 +105,5 @@ public class FrontController {
         return messageService.addMessage(message)
                 .then(Mono.just(ResultVO.success("添加成功")));
     }
+
 }
