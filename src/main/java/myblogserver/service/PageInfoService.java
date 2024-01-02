@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 @Service
@@ -22,8 +23,10 @@ public class PageInfoService {
         return pageInfoRepository.findByName(name);
     }
 
-    public Mono<List<PageInfo>> listPages() {
-        return pageInfoRepository.findAll().collectList();
+    public Mono<List<Map<String, String>>> listPages() {
+        return pageInfoRepository.findAll()
+                .map(pageInfo -> Map.of("name", pageInfo.getName()))
+                .collectList();
     }
 
     public Mono<PageInfo> resetPageInfo(PageInfo pageInfo) {

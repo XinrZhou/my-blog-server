@@ -14,7 +14,7 @@ on:
   pull_request:
     branches: [ "master" ]
 env: 
-  path: /root/workspace/myblog/openjdk/
+  path: /root/workspace2023/myblog/openjdk/
 
 jobs:
   build:
