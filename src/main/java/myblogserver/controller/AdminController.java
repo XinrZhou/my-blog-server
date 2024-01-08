@@ -10,7 +10,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
-import java.time.LocalDateTime;
 import java.util.Map;
 
 @RestController
@@ -62,7 +61,6 @@ public class AdminController {
      */
     @PostMapping("/info")
     public Mono<ResultVO> postInfo(@RequestBody User user,@RequestAttribute("uid") long uid) {
-        user.setUpdateTime(LocalDateTime.now());
         return userService.resetInfo(user, uid)
                 .then(Mono.just(ResultVO.success("修改成功！")));
     }
