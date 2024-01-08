@@ -41,9 +41,7 @@ public class ArticleService {
     }
 
     public Mono<Void> resetArticle(Article article) {
-        return articleRepository.updateArticleById(article.getLabel(), article.getTitle(), article.getImgUrl(), article.getDigest(), article.getContent(), article.getId())
-                .filter(u -> u != 0)
-                .switchIfEmpty(Mono.error(new XException(ResultVO.BAD_REQUEST, "修改失败，请稍后再试")))
+        return articleRepository.save(article)
                 .then();
     }
 

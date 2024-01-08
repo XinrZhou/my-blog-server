@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -34,6 +35,7 @@ public class PageInfoService {
                 .filter(Objects::nonNull)
                 .flatMap(pageInfoM -> {
                     pageInfo.setId(pageInfoM.getId());
+                    pageInfo.setUpdateTime(LocalDateTime.now());
                     return pageInfoRepository.save(pageInfo);
                 })
                 .switchIfEmpty(pageInfoRepository.save(pageInfo));

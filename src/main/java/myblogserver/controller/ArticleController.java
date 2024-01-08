@@ -5,11 +5,9 @@ import myblogserver.service.ArticleService;
 import myblogserver.utils.ResultVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import reactor.core.publisher.Mono;
 
 import java.time.LocalDateTime;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/article")
@@ -38,6 +36,7 @@ public class ArticleController {
      */
     @PostMapping("/article")
     public Mono<ResultVO> postArticle(@RequestBody Article article) {
+        article.setUpdateTime(LocalDateTime.now());
         return articleService.resetArticle(article)
                 .then(Mono.just(ResultVO.success("修改成功！")));
     }
